@@ -53,10 +53,27 @@ cd F:\1\csi
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build_workbench_installer.ps1
 ```
 
-Build artifacts:
+Windows build artifacts:
 
-- `dist_installer\SwCSI_V1.0.1_Setup.exe`
-- `dist_installer\SwCSI_V1.0.1_Portable.zip`
+- `dist_installer\SwCSI_V1.0.2_Setup.exe`
+- `dist_installer\SwCSI_V1.0.2_Portable.zip`
+
+## macOS Build
+
+Run on macOS:
+
+```bash
+cd /path/to/WIFI_CSITOOL_ESP32
+bash scripts/build_macos_app.sh
+```
+
+macOS build artifacts:
+
+- `dist/SwCSI.app`
+- `dist_installer/SwCSI_V1.0.2_macOS.dmg`
+- `dist_installer/SwCSI_V1.0.2_macOS.img`
+
+The repository also includes a GitHub Actions workflow: `.github/workflows/build-macos.yml`.
 
 ## Contact
 

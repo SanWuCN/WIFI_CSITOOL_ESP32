@@ -1,5 +1,13 @@
 # Changelog
 
+## SwCSI V1.0.2 - 2026-06-14
+
+- Added macOS application packaging support.
+- Added macOS `.dmg` and `.img` build script.
+- Added GitHub Actions workflow for macOS builds.
+- Moved runtime settings and default data output to user application data directories for better packaged-app behavior.
+- Added cross-platform folder opening behavior.
+
 ## SwCSI V1.0.1 - 2026-06-14
 
 - Renamed the Windows workbench to SwCSI.

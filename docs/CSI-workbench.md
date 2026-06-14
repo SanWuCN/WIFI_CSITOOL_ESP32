@@ -113,8 +113,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build_workbench_inst
 
 生成结果：
 
-- `dist_installer\SwCSI_V1.0.1_Setup.exe`：普通用户安装包，安装到 `%LOCALAPPDATA%\Programs\SwCSI`。
-- `dist_installer\SwCSI_V1.0.1_Portable.zip`：便携版，解压后直接运行 `SwCSI.exe`。
+- `dist_installer\SwCSI_V1.0.2_Setup.exe`：普通用户安装包，安装到 `%LOCALAPPDATA%\Programs\SwCSI`。
+- `dist_installer\SwCSI_V1.0.2_Portable.zip`：便携版，解压后直接运行 `SwCSI.exe`。
+
+macOS 版本需要在 macOS 上构建：
+
+```bash
+bash scripts/build_macos_app.sh
+```
+
+输出：
+
+- `dist/SwCSI.app`
+- `dist_installer/SwCSI_V1.0.2_macOS.dmg`
+- `dist_installer/SwCSI_V1.0.2_macOS.img`
 
 安装包会创建桌面快捷方式、开始菜单快捷方式和开始菜单卸载入口。
 

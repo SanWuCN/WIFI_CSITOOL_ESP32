@@ -3,8 +3,10 @@ from __future__ import annotations
 import csv
 import json
 import os
+import platform
 import queue
 import shutil
+import subprocess
 import sys
 import threading
 import time
@@ -35,18 +37,29 @@ from csi_binary_common import BinaryCsiRecord, pop_record_from_buffer
 from csi_common import CsiFrame, ESP32_TIMED_COLUMNS, parse_csi_line, valid_amplitude, valid_complex_csi
 
 
+APP_NAME = "SwCSI"
+APP_VERSION = "V1.0.2"
+CONTACT_EMAIL = "1292053575@qq.com"
 if getattr(sys, "frozen", False):
     PROJECT_ROOT = Path(sys.executable).resolve().parent
+    RESOURCE_ROOT = Path(getattr(sys, "_MEIPASS", PROJECT_ROOT))
 else:
     PROJECT_ROOT = Path(__file__).resolve().parents[1]
-APP_NAME = "SwCSI"
-APP_VERSION = "V1.0.1"
-CONTACT_EMAIL = "1292053575@qq.com"
+    RESOURCE_ROOT = PROJECT_ROOT
+if sys.platform == "darwin":
+    APP_DATA_DIR = Path.home() / "Library" / "Application Support" / APP_NAME
+elif getattr(sys, "frozen", False):
+    APP_DATA_DIR = Path(os.environ.get("LOCALAPPDATA", str(Path.home()))) / APP_NAME
+else:
+    APP_DATA_DIR = PROJECT_ROOT
 ASSETS_DIR = PROJECT_ROOT / "assets"
+RESOURCE_ASSETS_DIR = RESOURCE_ROOT / "assets"
 ICON_PNG = ASSETS_DIR / "swcsi_icon.png"
 ICON_ICO = ASSETS_DIR / "swcsi_icon.ico"
-SETTINGS_PATH = PROJECT_ROOT / "swcsi_settings.json"
-DEFAULT_OUT_DIR = PROJECT_ROOT / "data" / "raw"
+RESOURCE_ICON_PNG = RESOURCE_ASSETS_DIR / "swcsi_icon.png"
+RESOURCE_ICON_ICO = RESOURCE_ASSETS_DIR / "swcsi_icon.ico"
+SETTINGS_PATH = APP_DATA_DIR / "swcsi_settings.json"
+DEFAULT_OUT_DIR = APP_DATA_DIR / "data" / "raw"
 DEFAULT_BAUD = 921600
 MAX_FRAMES = 240
 PLOT_REFRESH_MS = 100
@@ -473,14 +486,17 @@ class CsiWorkbench(tk.Tk):
             "language": self.language_var.get() if self.language_var.get() in LANGUAGES else "zh",
             "default_out_dir": self.out_dir_var.get() or str(DEFAULT_OUT_DIR),
         }
+        SETTINGS_PATH.parent.mkdir(parents=True, exist_ok=True)
         SETTINGS_PATH.write_text(json.dumps(self.settings, ensure_ascii=False, indent=2), encoding="utf-8")
 
     def _set_app_icon(self) -> None:
         try:
-            if ICON_ICO.exists():
-                self.iconbitmap(str(ICON_ICO))
-            if ICON_PNG.exists():
-                self._icon_image = tk.PhotoImage(file=str(ICON_PNG))
+            ico = RESOURCE_ICON_ICO if RESOURCE_ICON_ICO.exists() else ICON_ICO
+            png = RESOURCE_ICON_PNG if RESOURCE_ICON_PNG.exists() else ICON_PNG
+            if sys.platform == "win32" and ico.exists():
+                self.iconbitmap(str(ico))
+            if png.exists():
+                self._icon_image = tk.PhotoImage(file=str(png))
                 self.iconphoto(True, self._icon_image)
         except Exception:
             self._icon_image = None
@@ -828,7 +844,9 @@ class CsiWorkbench(tk.Tk):
         dialog.resizable(False, False)
         dialog.columnconfigure(1, weight=1)
         try:
-            dialog.iconbitmap(str(ICON_ICO))
+            ico = RESOURCE_ICON_ICO if RESOURCE_ICON_ICO.exists() else ICON_ICO
+            if sys.platform == "win32" and ico.exists():
+                dialog.iconbitmap(str(ico))
         except Exception:
             pass
 
@@ -882,9 +900,12 @@ class CsiWorkbench(tk.Tk):
         out_dir = Path(self.out_dir_var.get())
         out_dir.mkdir(parents=True, exist_ok=True)
         try:
-            import os
-
-            os.startfile(out_dir)
+            if sys.platform == "win32":
+                os.startfile(out_dir)
+            elif sys.platform == "darwin":
+                subprocess.run(["open", str(out_dir)], check=False)
+            else:
+                subprocess.run(["xdg-open", str(out_dir)], check=False)
         except Exception as exc:
             messagebox.showerror("打开目录失败", str(exc))
 

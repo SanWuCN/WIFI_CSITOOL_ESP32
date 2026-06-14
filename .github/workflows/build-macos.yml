@@ -1,0 +1,31 @@
+name: Build macOS SwCSI
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build macOS app and image
+        run: bash scripts/build_macos_app.sh
+
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: SwCSI-V1.0.2-macOS
+          path: |
+            dist/SwCSI.app
+            dist_installer/SwCSI_V1.0.2_macOS.dmg
+            dist_installer/SwCSI_V1.0.2_macOS.img

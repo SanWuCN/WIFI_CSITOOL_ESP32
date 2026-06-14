@@ -4,7 +4,7 @@ $PSNativeCommandUseErrorActionPreference = $false
 $Root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $AppName = "SwCSI"
 $DisplayName = "SwCSI"
-$Version = "V1.0.1"
+$Version = "V1.0.2"
 $PythonLauncher = "py"
 $PythonVersionArg = "-3.9"
 
