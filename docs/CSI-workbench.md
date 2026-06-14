@@ -126,7 +126,6 @@ bash scripts/build_macos_app.sh
 
 - `dist/SwCSI.app`
 - `dist_installer/SwCSI_V1.0.2_macOS.dmg`
-- `dist_installer/SwCSI_V1.0.2_macOS.img`
 
 安装包会创建桌面快捷方式、开始菜单快捷方式和开始菜单卸载入口。
 

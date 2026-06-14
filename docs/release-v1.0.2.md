@@ -7,7 +7,7 @@ SwCSI V1.0.2 adds macOS packaging support while keeping the Windows workbench wo
 - Added macOS app bundle build support.
 - Added macOS disk image outputs:
   - `SwCSI_V1.0.2_macOS.dmg`
-  - `SwCSI_V1.0.2_macOS.img`
+- Removed the redundant `.img` package; macOS distribution now uses `.dmg`.
 - Added GitHub Actions workflow for macOS builds.
 - Runtime settings now use user application data directories.
 - Folder opening is now cross-platform.
@@ -24,7 +24,6 @@ Output:
 ```text
 dist/SwCSI.app
 dist_installer/SwCSI_V1.0.2_macOS.dmg
-dist_installer/SwCSI_V1.0.2_macOS.img
 ```
 
 ## Contact

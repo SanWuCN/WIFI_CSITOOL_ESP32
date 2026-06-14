@@ -71,7 +71,6 @@ macOS build artifacts:
 
 - `dist/SwCSI.app`
 - `dist_installer/SwCSI_V1.0.2_macOS.dmg`
-- `dist_installer/SwCSI_V1.0.2_macOS.img`
 
 The repository also includes a GitHub Actions workflow: `.github/workflows/build-macos.yml`.
 

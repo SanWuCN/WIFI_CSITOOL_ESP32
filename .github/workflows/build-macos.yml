@@ -28,4 +28,3 @@ jobs:
           path: |
             dist/SwCSI.app
             dist_installer/SwCSI_V1.0.2_macOS.dmg
-            dist_installer/SwCSI_V1.0.2_macOS.img

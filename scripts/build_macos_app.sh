@@ -9,7 +9,6 @@ BUILD_DIR="$ROOT/build/pyinstaller_macos"
 OUT_DIR="$ROOT/dist_installer"
 APP_PATH="$DIST_DIR/$APP_NAME.app"
 DMG_PATH="$OUT_DIR/${APP_NAME}_${VERSION}_macOS.dmg"
-IMG_PATH="$OUT_DIR/${APP_NAME}_${VERSION}_macOS.img"
 
 cd "$ROOT"
 mkdir -p "$OUT_DIR"
@@ -37,7 +36,7 @@ if [[ ! -d "$APP_PATH" ]]; then
   exit 1
 fi
 
-rm -f "$DMG_PATH" "$IMG_PATH"
+rm -f "$DMG_PATH"
 hdiutil create \
   -volname "$APP_NAME $VERSION" \
   -srcfolder "$APP_PATH" \
@@ -45,8 +44,5 @@ hdiutil create \
   -format UDZO \
   "$DMG_PATH"
 
-cp "$DMG_PATH" "$IMG_PATH"
-
 echo "App bundle: $APP_PATH"
 echo "DMG image: $DMG_PATH"
-echo "IMG image: $IMG_PATH"
